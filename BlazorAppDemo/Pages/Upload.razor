@@ -1,0 +1,19 @@
+﻿@page "/upload"
+@using BlazorInputFile
+@using Refit;
+@inject BlazorAppDemo.Services.IUploadAPI UploadAPI
+
+<h1>Upload</h1>
+
+<InputFile OnChange="HandleSelection" />
+
+@code {
+    async Task HandleSelection(IFileListEntry[] files)
+    {
+        var file = files.FirstOrDefault();
+        if (file != null)
+        {
+            await UploadAPI.UploadPhoto(new StreamPart(file.Data, "avatar.png", "image/png"));
+        }
+    }
+}
